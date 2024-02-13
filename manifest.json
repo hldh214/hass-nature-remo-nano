@@ -1,10 +1,11 @@
 {
-  "domain": "nature_remo",
-  "name": "Nature Remo",
-  "version": "0.5",
-  "documentation": "https://github.com/yutoyazaki/hass-nature-remo",
-  "issue_tracker": "https://github.com/yutoyazaki/hass-nature-remo/issues",
+  "domain": "nature_remo_nano",
+  "name": "Nature Remo Nano",
+  "version": "0.1",
+  "documentation": "https://github.com/hldh214/hass-nature-remo-nano",
+  "issue_tracker": "https://github.com/hldh214/hass-nature-remo-nano/issues",
   "codeowners": [
-    "@yutoyazaki"
+    "@yutoyazaki",
+    "@hldh214"
   ]
 }

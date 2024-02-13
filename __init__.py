@@ -12,7 +12,7 @@ from homeassistant.const import CONF_ACCESS_TOKEN
 _LOGGER = logging.getLogger(__name__)
 _RESOURCE = "https://api.nature.global/1/"
 
-DOMAIN = "nature_remo"
+DOMAIN = "nature_remo_nano"
 
 CONF_COOL_TEMP = "cool_temperature"
 CONF_HEAT_TEMP = "heat_temperature"
@@ -40,7 +40,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 async def async_setup(hass, config):
     """Set up Nature Remo component."""
-    _LOGGER.debug("Setting up Nature Remo component.")
+    _LOGGER.debug("Setting up Nature Remo Nano component.")
     access_token = config[DOMAIN][CONF_ACCESS_TOKEN]
     session = async_get_clientsession(hass)
     api = NatureRemoAPI(access_token, session)
@@ -58,7 +58,6 @@ async def async_setup(hass, config):
         "config": config[DOMAIN],
     }
 
-    await discovery.async_load_platform(hass, "sensor", DOMAIN, {}, config)
     await discovery.async_load_platform(hass, "climate", DOMAIN, {}, config)
     return True
 
@@ -118,11 +117,11 @@ class NatureRemoBase(Entity):
     @property
     def device_info(self):
         """Return the device info for the sensor."""
-        # Since device registration requires Config Entries, this dosen't work for now
+        # Since device registration requires Config Entries, this doesn't work for now
         return {
             "identifiers": {(DOMAIN, self._device["id"])},
             "name": self._device["name"],
-            "manufacturer": "Nature Remo",
+            "manufacturer": "Nature Inc.",
             "model": self._device["serial_number"],
             "sw_version": self._device["firmware_version"],
         }

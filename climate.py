@@ -4,8 +4,6 @@ import logging
 from homeassistant.core import callback
 from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (
-    DEFAULT_MAX_TEMP,
-    DEFAULT_MIN_TEMP,
     HVAC_MODE_AUTO,
     HVAC_MODE_COOL,
     HVAC_MODE_DRY,
@@ -42,7 +40,7 @@ MODE_REMO_TO_HA = {
 }
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+async def async_setup_platform(hass, _config, async_add_entities, discovery_info=None):
     """Set up the Nature Remo AC."""
     if discovery_info is None:
         return
@@ -122,7 +120,7 @@ class NatureRemoAC(NatureRemoBase, ClimateEntity):
         """Return the supported step of target temperature."""
         temp_range = self._current_mode_temp_range()
         if len(temp_range) >= 2:
-            # determine step from the gap of first and second temperature
+            # determine the step from the gap of first and second temperature
             step = round(temp_range[1] - temp_range[0], 1)
             if step in [1.0, 0.5]:  # valid steps
                 return step
@@ -130,7 +128,7 @@ class NatureRemoAC(NatureRemoBase, ClimateEntity):
 
     @property
     def hvac_mode(self):
-        """Return hvac operation ie. heat, cool mode."""
+        """Return hvac mode i.e. heat, cool mode."""
         return self._hvac_mode
 
     @property
@@ -169,12 +167,12 @@ class NatureRemoAC(NatureRemoBase, ClimateEntity):
         }
 
     async def async_set_temperature(self, **kwargs):
-        """Set new target temperature."""
+        """Set the new target temperature."""
         target_temp = kwargs.get(ATTR_TEMPERATURE)
         if target_temp is None:
             return
         if target_temp.is_integer():
-            # has to cast to whole number otherwise API will return an error
+            # has to cast to whole number otherwise the API will return an error
             target_temp = int(target_temp)
         _LOGGER.debug("Set temperature: %d", target_temp)
         await self._post({"temperature": f"{target_temp}"})
@@ -217,7 +215,7 @@ class NatureRemoAC(NatureRemoBase, ClimateEntity):
         await self._coordinator.async_request_refresh()
 
     def _update(self, ac_settings, device=None):
-        # hold this to determin the ac mode while it's turned-off
+        # hold this to determine the ac mode while it's turned-off
         self._remo_mode = ac_settings["mode"]
         try:
             self._target_temperature = float(ac_settings["temp"])
@@ -233,7 +231,7 @@ class NatureRemoAC(NatureRemoBase, ClimateEntity):
         self._fan_mode = ac_settings["vol"] or None
         self._swing_mode = ac_settings["dir"] or None
 
-        if device is not None:
+        if device is not None and "te" in device["newest_events"]:
             self._current_temperature = float(device["newest_events"]["te"]["val"])
 
     @callback
