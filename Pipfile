@@ -4,11 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-voluptuous = "*"
-homeassistant = "*"
+voluptuous = "==0.13.*"
+homeassistant = "==2024.2.*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
-python_full_version = "3.10.2"
+python_version = "3.12"
